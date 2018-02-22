@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using TigersMilkSrvr.Models;
@@ -68,7 +70,9 @@ namespace TigersMilkSrvr.Controllers
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
+
+                
             }
            
             
