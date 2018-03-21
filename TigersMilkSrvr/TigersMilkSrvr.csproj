@@ -189,13 +189,17 @@
     <Compile Include="Controllers\AOCUserManagementController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
+    <Compile Include="Controllers\DocumentSearchController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\OrderDataController.cs" />
     <Compile Include="Controllers\SomeOtherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataAnalytics.cs" />
+    <Compile Include="Models\Document.cs" />
     <Compile Include="Models\HallMonitor.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\TokenManager.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
