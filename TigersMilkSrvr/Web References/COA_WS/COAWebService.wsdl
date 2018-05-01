@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://www.aoc-resins.com/WebServices" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" targetNamespace="http://www.aoc-resins.com/WebServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.aoc-resins.com/WebServices">
+      <s:element name="GetCoaDocuments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBOL_NO" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCoaDocumentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentNames" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCoaDocumentsByApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strBOL_NO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="STR_FROM_APP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCoaDocumentsByAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentNames" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMSDSDocuments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMSDSDocumentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MSDSDocumentPath" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MSDSDocumentName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestAuthenticated">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestAuthenticatedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestAuthenticatedResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCoaDocumentsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCoaDocuments" />
+  </wsdl:message>
+  <wsdl:message name="GetCoaDocumentsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCoaDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCoaDocumentsByAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCoaDocumentsByApp" />
+  </wsdl:message>
+  <wsdl:message name="GetCoaDocumentsByAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCoaDocumentsByAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMSDSDocumentsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMSDSDocuments" />
+  </wsdl:message>
+  <wsdl:message name="GetMSDSDocumentsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMSDSDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestAuthenticatedSoapIn">
+    <wsdl:part name="parameters" element="tns:TestAuthenticated" />
+  </wsdl:message>
+  <wsdl:message name="TestAuthenticatedSoapOut">
+    <wsdl:part name="parameters" element="tns:TestAuthenticatedResponse" />
+  </wsdl:message>
+  <wsdl:portType name="COAReportServiceSoap">
+    <wsdl:operation name="GetCoaDocuments">
+      <wsdl:input message="tns:GetCoaDocumentsSoapIn" />
+      <wsdl:output message="tns:GetCoaDocumentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCoaDocumentsByApp">
+      <wsdl:input message="tns:GetCoaDocumentsByAppSoapIn" />
+      <wsdl:output message="tns:GetCoaDocumentsByAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMSDSDocuments">
+      <wsdl:input message="tns:GetMSDSDocumentsSoapIn" />
+      <wsdl:output message="tns:GetMSDSDocumentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestAuthenticated">
+      <wsdl:input message="tns:TestAuthenticatedSoapIn" />
+      <wsdl:output message="tns:TestAuthenticatedSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="COAReportServiceSoap" type="tns:COAReportServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCoaDocuments">
+      <soap:operation soapAction="http://www.aoc-resins.com/WebServices/GetCoaDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCoaDocumentsByApp">
+      <soap:operation soapAction="http://www.aoc-resins.com/WebServices/GetCoaDocumentsByApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMSDSDocuments">
+      <soap:operation soapAction="http://www.aoc-resins.com/WebServices/GetMSDSDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestAuthenticated">
+      <soap:operation soapAction="http://www.aoc-resins.com/WebServices/TestAuthenticated" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="COAReportService">
+    <wsdl:port name="COAReportServiceSoap" binding="tns:COAReportServiceSoap">
+      <soap:address location="http://hydra.aoc-resins.com/OM_COA/COAWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

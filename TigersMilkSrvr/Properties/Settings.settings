@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TigersMilkSrvr.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TigersMilkSrvr_COA_WS_COAReportService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://hydra.aoc-resins.com/OM_COA/COAWebService.asmx</Value>
+    </Setting>
+    <Setting Name="TigersMilkSrvr_AOCEmailService_Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://aoccol-81/omwfemail/service.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -103,3 +103,5 @@ C:\Users\cduncan\Documents\Visual Studio 2015\Projects\TigersMilkSrvr\TigersMilk
 C:\Users\cduncan\Documents\Visual Studio 2015\Projects\TigersMilkSrvr\TigersMilkSrvr\obj\Release\TigersMilkSrvr.csprojResolveAssemblyReference.cache
 C:\Users\cduncan\Documents\Visual Studio 2015\Projects\TigersMilkSrvr\TigersMilkSrvr\obj\Release\TigersMilkSrvr.dll
 C:\Users\cduncan\Documents\Visual Studio 2015\Projects\TigersMilkSrvr\TigersMilkSrvr\obj\Release\TigersMilkSrvr.pdb
+C:\Users\cduncan\Documents\Visual Studio 2015\Projects\TigersMilkSrvr\TigersMilkSrvr\bin\TigersMilkSrvr.XmlSerializers.dll
+C:\Users\cduncan\Documents\Visual Studio 2015\Projects\TigersMilkSrvr\TigersMilkSrvr\obj\Release\TigersMilkSrvr.XmlSerializers.dll
