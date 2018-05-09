@@ -27,18 +27,7 @@ namespace TigersMilkSrvr.Controllers
         // POST: api/SendOrder
         public string Post(OrderEmail email)
         {
-            string val = "started";
-            try
-            {
-                if (OrderEmailHelper.sendOrder(email))
-                    val = "Success indicated";
-            }
-            catch (Exception e)
-            {
-                val = "Error: " + e.Message;
-            }
-            
-            return val;
+            return OrderEmailHelper.sendOrder(email) == true ? "success" : "fail";
         }
 
         // PUT: api/SendOrder/5

@@ -56,7 +56,7 @@ namespace TigersMilkSrvr.Models
         //public string LINE_SPECIAL_INSTRUCTIONS { get; set; }
         public string LOCATION_NAME { get; set; }
         //public string ORDER_QUANTITY { get; set; }
-        //public string ORDER_QUANTITY_UOM { get; set; }
+        public string ORDER_QUANTITY_UOM { get; set; }
         public string ORDER_SPECIAL_INSTRUCTIONS { get; set; }
         //public string ORDERED_CONTAINERS { get; set; }
         public string ORDERED_ITEM { get; set; }
@@ -222,6 +222,7 @@ namespace TigersMilkSrvr.Models
                         order.CUSTOMER_PO_NUMBER = rows[0]["CUSTOMER_PO_NUMBER"].ToString();
                         order.LOCATION_NAME = rows[0]["LOCATION_NAME"].ToString();
                         order.ORDERED_ITEM = rows[0]["ORDERED_ITEM"].ToString();
+                        order.ORDER_QUANTITY_UOM = rows[0]["ORDER_QUANTITY_UOM"].ToString();
                         order.ORDER_SPECIAL_INSTRUCTIONS = rows[0]["ORDER_SPECIAL_INSTRUCTIONS"].ToString();
                         order.SUBMIT_DATE = (DateTime)rows[0]["SUBMIT_DATE"];
                         order.SUBMITTED_BY_EMAIL_ADDRESS = rows[0]["SUBMITTED_BY_EMAIL_ADDRESS"].ToString();
@@ -310,68 +311,82 @@ namespace TigersMilkSrvr.Models
         {
             bool success = false;
 
-           /* OracleConnection ORA = new OracleConnection();
+            OracleConnection ORA = new OracleConnection();
             ORA.ConnectionString = ConfigurationManager.ConnectionStrings["aocport"].ToString();
             OracleCommand OCMD = ORA.CreateCommand();
 
 
             #region SQL Statement
-            string sql = "insert into AOCPORT_PENDING_ORDERS (" +
-                         "PENDING_ORDER_HEADER_ID, " +
-                         "AOC_SITE_NUMBER, " +
-                         "CUSTOMER_GROUP_CODE, " +
-                         "CUSTOMER_ID, " +
-                         "CUSTOMER_NAME, " +
-                         "CUSTOMER_PO_NUMBER, " +
-                         "LINE_SPECIAL_INSTRUCTIONS, " +
-                         "LOCATION_NAME, " +
-                         "ORDERED_CONTAINERS, " +
-                         "ORDERED_ITEM, " +
-                         "ORDER_QUANTITY, " +
-                         "ORDER_QUANTITY_UOM, " +
-                         "ORDER_SPECIAL_INSTRUCTIONS, " +
-                         "PACKAGE_CODE, " +
-                         "SUBMISSION_STATUS, " +
-                         "REQUESTED_DELIVERY_DATE, " +
-                         "SUBMITTED_BY_EMAIL_ADDRESS, " +
-                         "SUBMITTED_BY_NAME, " +
-                         "SUBMIT_DATE) values ( " +
-                         "'" + order.PENDING_ORDER_HEADER_ID + "', " +
-                         "'" + order.AOC_SITE_NUMBER + "', " +
-                         order.CUSTOMER_GROUP_CODE + ", " +
-                         order.CUSTOMER_ID + ", " +
-                         "'" + order.CUSTOMER_NAME + "', " +
-                         "'" + order.CUSTOMER_PO_NUMBER + "', " +
-                         "'" + order.LINE_SPECIAL_INSTRUCTIONS + "', " +
-                         "'" + order.LOCATION_NAME + "', " +
-                         order.ORDERED_CONTAINERS + ", " +
-                         "'" + order.ORDERED_ITEM + "', " +
-                         order.ORDER_QUANTITY + ", " +
-                         "'" + order.ORDER_QUANTITY_UOM + "', " +
-                         "'" + order.ORDER_SPECIAL_INSTRUCTIONS + "', " +
-                         "'" + order.PACKAGE_CODE + "', " +
-                         "'" + order.SUBMISSION_STATUS + "', " +
-                         "TO_DATE('" + order.REQUESTED_DELIVERY_DATE.ToString("dd-MMM-yyyy") + "'), " +
-                         "'" + order.SUBMITTED_BY_EMAIL_ADDRESS + "', " +
-                         "'" + order.SUBMITTED_BY_NAME + "', " +
-                         "TO_DATE('" + order.SUBMIT_DATE.ToString("dd-MMM-yyyy") + "') " +
-                         ") ";
+            string[] sql = new string[order.LINES.Length];
+            for (int L = 0; L < order.LINES.Length; L++)
+            {
+               sql[L] =  "insert into AOCPORT_PENDING_ORDERS (" +
+                       "PENDING_ORDER_HEADER_ID, " +
+                       "AOC_SITE_NUMBER, " +
+                       "CUSTOMER_GROUP_CODE, " +
+                       "CUSTOMER_ID, " +
+                       "CUSTOMER_NAME, " +
+                       "CUSTOMER_PO_NUMBER, " +
+                       "LINE_SPECIAL_INSTRUCTIONS, " +
+                       "LOCATION_NAME, " +
+                       //"ORDERED_CONTAINERS, " +
+                       "ORDERED_ITEM, " +
+                       "ORDER_QUANTITY, " +
+                       "ORDER_QUANTITY_UOM, " +
+                       "ORDER_SPECIAL_INSTRUCTIONS, " +
+                       //"PACKAGE_CODE, " +
+                       "SUBMISSION_STATUS, " +
+                       "REQUESTED_DELIVERY_DATE, " +
+                       "SUBMITTED_BY_EMAIL_ADDRESS, " +
+                       "SUBMITTED_BY_NAME, " +
+                       "SUBMIT_DATE) values ( " +
+                       "'" + order.PENDING_ORDER_HEADER_ID + "', " +
+                       "'" + order.AOC_SITE_NUMBER + "', " +
+                       order.CUSTOMER_GROUP_CODE + ", " +
+                       order.CUSTOMER_ID + ", " +
+                       "'" + order.CUSTOMER_NAME + "', " +
+                       "'" + order.CUSTOMER_PO_NUMBER + "', " +
+                       "'" + order.LINES[L].SPECIAL_INSTRUCTIONS + "', " +
+                       "'" + order.LOCATION_NAME + "', " +
+                       //order.LINES[0].ORDERED_CONTAINERS + ", " +
+                       "'" + order.ORDERED_ITEM + "', " +
+                       order.LINES[L].ORDERED_QUANTITY + ", " +
+                       "'" + order.LINES[L].ORDER_QUANTITY_UOM + "', " +
+                       "'" + order.ORDER_SPECIAL_INSTRUCTIONS + "', " +
+                       //"'" + order.PACKAGE_CODE + "', " +
+                       "'" + order.SUBMISSION_STATUS + "', " +
+                       "TO_DATE('" + order.LINES[L].DELIVERY_DATE.ToString("dd-MMM-yyyy") + "'), " +
+                       "'" + order.SUBMITTED_BY_EMAIL_ADDRESS + "', " +
+                       "'" + order.SUBMITTED_BY_NAME + "', " +
+                       "TO_DATE('" + order.SUBMIT_DATE.ToString("dd-MMM-yyyy") + "') " +
+                       ") ";
+
+            }
+              
             #endregion
 
 
             ORA.Open();
             OCMD = ORA.CreateCommand();
-            
             OracleTransaction txn = ORA.BeginTransaction();
-            OCMD.Transaction = txn;
+
 
             #region Inser the new reorder record
             try
             {
-                OCMD.CommandText = sql;
+                OCMD.Transaction = txn;
 
-                int recs = OCMD.ExecuteNonQuery();
+                for (int L = 0; L < order.LINES.Length; L++)
+                {
+                    
+                   
+                    OCMD.CommandText = sql[L];
 
+                    int recs = OCMD.ExecuteNonQuery();
+
+                    
+
+                }
                 txn.Commit();
 
                 success = true;
@@ -390,12 +405,12 @@ namespace TigersMilkSrvr.Models
             }
             #endregion
 
-            int meaningless = 0;*/
+            int meaningless = 0;
 
             return success;
         }
 
-        public static bool deleteReorderRecord(int orderID)
+        public static bool deleteReorderRecord(string pohi)
         {
             bool success = false;
 
@@ -406,7 +421,7 @@ namespace TigersMilkSrvr.Models
 
             #region SQL Statement
             string sql = "delete from AOCPORT_PENDING_ORDERS  where 1 = 1 " +
-                         "AND PENDING_ORDER_ID = " + orderID;
+                         "AND PENDING_ORDER_HEADER_ID = '" + pohi + "' ";
             #endregion
 
 
@@ -447,10 +462,14 @@ namespace TigersMilkSrvr.Models
         }
 
 
-        public static bool updateReorderRecord(PendingAOCPortOrder order)
+        public static bool updateReorderRecord(string pohi, PendingAOCPortOrder order)
         {
             bool success = false;
 
+
+            success = (deleteReorderRecord(pohi) && addReorderRecord(order));
+
+            #region old code
             /*OracleConnection ORA = new OracleConnection();
             ORA.ConnectionString = ConfigurationManager.ConnectionStrings["aocport"].ToString();
             OracleCommand OCMD = ORA.CreateCommand();
@@ -515,10 +534,10 @@ namespace TigersMilkSrvr.Models
             {
                 ORA.Dispose();
                 OCMD.Dispose();
-            }
+            }*/
             #endregion
 
-            int meaningless = 0;*/
+            int meaningless = 0;
 
             return success;
         }

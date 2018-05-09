@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Microsoft.Ajax.Utilities;
 using TigersMilkSrvr.Models;
 
 namespace TigersMilkSrvr.Controllers
@@ -25,22 +26,28 @@ namespace TigersMilkSrvr.Controllers
         }
 
         // POST: api/PendingOrder
-        public string Post(PendingAOCPortOrder order)
+        public string Post(PendingAOCPortOrder order, [FromUri]string action)
         {
-            return OrderHelper.addReorderRecord(order) == true ? "success" : "fail";
+            //if(order.PENDING_ORDER_HEADER_ID != null && order.PENDING_ORDER_HEADER_ID.Length > 0)
+                if(action.IsNullOrWhiteSpace() || !action.Equals("delete", StringComparison.CurrentCultureIgnoreCase))
+                    return OrderHelper.updateReorderRecord(order.PENDING_ORDER_HEADER_ID, order) == true ? "success" : "fail";
+                else
+                    return OrderHelper.deleteReorderRecord(order.PENDING_ORDER_HEADER_ID) == true ? "success" : "fail";
+            //else
+            //    return OrderHelper.addReorderRecord(order) == true ? "success" : "fail";
         }
 
         // PUT: api/PendingOrder/5
-        public string Put(int id, PendingAOCPortOrder order)
+        public string Put(PendingAOCPortOrder order)
         {
-            return OrderHelper.updateReorderRecord(order) == true ? "success" : "fail";
+            return OrderHelper.updateReorderRecord(order.PENDING_ORDER_HEADER_ID, order) == true ? "success" : "fail";
             
         }
 
         // DELETE: api/PendingOrder/5
-        public string Delete(int id)
+        public string Delete([FromUri]string pohi)
         {
-            return OrderHelper.deleteReorderRecord(id) == true ? "success" : "fail";
+            return OrderHelper.deleteReorderRecord(pohi) == true ? "success" : "fail";
         }
     }
 }
